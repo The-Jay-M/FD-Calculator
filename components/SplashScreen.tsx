@@ -42,23 +42,36 @@ const SplashScreen: React.FC<{ onFinish: () => void }> = ({ onFinish }) => {
         {/* Top Spacer for iOS Status Bar */}
         <div className="h-12 w-full"></div>
         
-        {/* Central 3D Asset Area */}
+        {/* Central Asset Area */}
         <div className="relative flex flex-col items-center justify-center grow w-full">
             {/* Radial Backdrop Glow */}
-            <div className="absolute w-[500px] h-[500px] radial-glow rounded-full"></div>
+            <div className="absolute w-[500px] h-[500px] radial-glow rounded-full opacity-60"></div>
             
-            {/* 3D Asset Container */}
-            <div className="animate-bounce-soft flex flex-col items-center z-10">
+            {/* Video Asset Container */}
+            <div className="flex flex-col items-center z-10">
                 <div className="relative group">
-                    {/* Placeholder for Isometric 3D Gold Coin/Safe with Bars */}
-                    <div className="w-64 h-64 bg-center bg-no-repeat bg-contain" data-alt="3D isometric gold coin" style={{backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuC13t2rTe6BFx8R9oA2kATogHFyMu8PeuMOLLeA8fM-3zTVKnxd4Ll6rUkcdwdQYUYp6pLs9bbftU13OQiff464OKtjvFA3KdLL2I8JKsbSjZ0c2EJAZJSA7H7owjNKz-9mXD-8crvz9AbJT3HK7HKgcJSgJ4nc1Be3sZY5QVxWaQxWfBVBA_8Y0IbvJOAct-Ps8hvox6ob97J9JXZUvnKO-k2H3zg2hiyde1qGucqU8OdjHsSBPKmNgY8nJglAusWyKRWFEaBVL_k")'}}>
+                    {/* Video Player for Animation */}
+                    <div className="w-64 h-64 rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-black relative transform transition-transform hover:scale-105 duration-500">
+                        <video 
+                            className="w-full h-full object-cover scale-110" // scale-110 to zoom in slightly and hide edges if needed
+                            autoPlay 
+                            muted 
+                            loop 
+                            playsInline
+                            poster="https://lh3.googleusercontent.com/aida-public/AB6AXuC13t2rTe6BFx8R9oA2kATogHFyMu8PeuMOLLeA8fM-3zTVKnxd4Ll6rUkcdwdQYUYp6pLs9bbftU13OQiff464OKtjvFA3KdLL2I8JKsbSjZ0c2EJAZJSA7H7owjNKz-9mXD-8crvz9AbJT3HK7HKgcJSgJ4nc1Be3sZY5QVxWaQxWfBVBA_8Y0IbvJOAct-Ps8hvox6ob97J9JXZUvnKO-k2H3zg2hiyde1qGucqU8OdjHsSBPKmNgY8nJglAusWyKRWFEaBVL_k"
+                        >
+                            <source src="https://pfst.cf2.poecdn.net/base/video/58eb9fcc691bae459d076d7af846576ff38d63d0e59f70df112a6d0385be7f4a" type="video/mp4" />
+                        </video>
+                        {/* Subtle inner shadow/vignette */}
+                        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/30 pointer-events-none"></div>
+                        
+                        {/* Reflection Glow (Adjusted for video box) */}
+                        <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-40 h-12 bg-gold-primary/20 blur-2xl rounded-full"></div>
                     </div>
-                    {/* Reflection Glow */}
-                    <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-32 h-4 bg-gold-primary/20 blur-xl rounded-full"></div>
                 </div>
                 
                 {/* Branding below Asset */}
-                <div className="mt-12 text-center">
+                <div className="mt-12 text-center relative z-20">
                     <h1 className="text-white tracking-tight text-[32px] font-bold leading-tight pb-1">
                         Premium <span className="text-gold-primary">Fixed Deposit</span>
                     </h1>
