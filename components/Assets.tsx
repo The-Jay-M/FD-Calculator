@@ -4,15 +4,15 @@ import { formatCurrency, formatDate } from '../utils/financial';
 
 interface AssetsProps {
   investments: SavedInvestment[];
-  onViewCertificate: (id: string) => void;
+  onViewDetails: (id: string) => void;
   onAddNew: () => void;
 }
 
-const Assets: React.FC<AssetsProps> = ({ investments, onViewCertificate, onAddNew }) => {
+const Assets: React.FC<AssetsProps> = ({ investments, onViewDetails, onAddNew }) => {
   const totalPrincipal = investments.reduce((acc, inv) => acc + inv.principal, 0);
   
   return (
-    <div className="flex flex-col h-full min-h-screen bg-background-dark pb-24 animate-in slide-in-from-right duration-300">
+    <div className="flex flex-col h-full min-h-screen bg-background-dark pb-32 animate-in slide-in-from-right duration-300">
       <div className="p-6 pt-12 sticky top-0 bg-background-dark/95 backdrop-blur-md z-30 border-b border-white/5">
         <div className="flex justify-between items-end">
             <div>
@@ -35,15 +35,15 @@ const Assets: React.FC<AssetsProps> = ({ investments, onViewCertificate, onAddNe
            </div>
         ) : (
           investments.map((inv) => (
-             <div 
+             <button 
                 key={inv.id} 
-                onClick={() => inv.id && onViewCertificate(inv.id)} 
-                className="group relative p-5 rounded-2xl bg-[#1a2230] border border-white/5 hover:border-primary/30 transition-all active:scale-[0.98]"
+                onClick={() => inv.id && onViewDetails(inv.id)} 
+                className="w-full text-left group relative p-5 rounded-2xl bg-[#1a2230] border border-white/5 hover:border-primary/30 transition-all active:scale-[0.98]"
              >
                <div className="flex justify-between items-start mb-4">
                  <div>
-                    <h3 className="text-white font-bold text-xl tracking-tight">{formatCurrency(inv.principal)}</h3>
-                    <p className="text-white/40 text-xs mt-1 font-mono">{inv.id?.slice(0, 8).toUpperCase()}</p>
+                    <h3 className="text-white font-bold text-lg tracking-tight mb-1">{inv.title || 'Fixed Deposit'}</h3>
+                    <p className="text-white/60 text-xs font-mono">{formatCurrency(inv.principal)} • {inv.rate}%</p>
                  </div>
                  <div className="flex flex-col items-end gap-2">
                     <span className="text-gold text-[10px] font-bold border border-gold/30 px-2 py-1 rounded-full bg-gold/5 uppercase tracking-wide">
@@ -52,25 +52,17 @@ const Assets: React.FC<AssetsProps> = ({ investments, onViewCertificate, onAddNe
                  </div>
                </div>
                
-               <div className="grid grid-cols-2 gap-4 py-4 border-t border-white/5">
-                  <div>
-                    <p className="text-white/40 text-[10px] uppercase font-bold">Interest Rate</p>
-                    <p className="text-white font-medium">{inv.rate}%</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-white/40 text-[10px] uppercase font-bold">Maturity Date</p>
-                    <p className="text-white font-medium">{formatDate(inv.maturityDate)}</p>
-                  </div>
-               </div>
-
-               <div className="flex justify-between items-center pt-2">
-                 <div className="flex items-center gap-1 text-emerald-400">
-                    <span className="material-symbols-outlined text-sm">trending_up</span>
-                    <span className="text-xs font-bold">+{formatCurrency(inv.totalInterest)}</span>
+               <div className="flex justify-between items-center pt-2 border-t border-white/5 mt-2">
+                 <div className="flex flex-col pt-2">
+                    <span className="text-white/30 text-[10px] uppercase font-bold">Matures</span>
+                    <span className="text-white text-sm font-medium">{formatDate(inv.maturityDate)}</span>
                  </div>
-                 <span className="material-symbols-outlined text-white/20 group-hover:text-primary transition-colors">chevron_right</span>
+                 <div className="flex flex-col pt-2 items-end">
+                    <span className="text-emerald-400/70 text-[10px] uppercase font-bold">Interest</span>
+                    <span className="text-emerald-400 text-sm font-bold">+{formatCurrency(inv.totalInterest)}</span>
+                 </div>
                </div>
-             </div>
+             </button>
           ))
         )}
         

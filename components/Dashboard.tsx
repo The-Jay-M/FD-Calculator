@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { SavedInvestment } from '../types';
 import { formatCurrency } from '../utils/financial';
 import { calculateProgress, getTimeRemaining, TimeRemaining } from '../utils/time';
+import { ElephantIcon } from './ElephantIcon';
 
 interface DashboardProps {
   investments: SavedInvestment[];
@@ -113,17 +114,26 @@ const Dashboard: React.FC<DashboardProps> = ({ investments, onInitiateDeposit })
         </div>
       </div>
 
-      {/* Quick Action */}
+      {/* Quick Action with Elephant Icon */}
       <div className="px-4 mt-6">
         <button 
           onClick={onInitiateDeposit}
-          className="w-full relative overflow-hidden group bg-white text-black py-5 rounded-2xl font-bold shadow-xl shadow-white/5 active:scale-[0.98] transition-all"
+          className="w-full relative overflow-hidden group bg-white text-[#0d141b] py-6 px-6 rounded-3xl font-bold shadow-xl shadow-white/5 active:scale-[0.98] transition-all flex items-center justify-between"
         >
-          <div className="relative z-10 flex items-center justify-center gap-2">
-            <span>Calculate New Strategy</span>
-            <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+          <div className="relative z-10 flex flex-col items-start gap-1">
+            <span className="text-lg font-bold tracking-tight">New Smart Deposit</span>
+            <span className="text-xs text-gray-500 font-medium">Create a high-yield strategy</span>
+            <div className="mt-3 flex items-center gap-1 text-primary text-sm font-bold">
+              <span>Start Calculation</span>
+              <span className="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
+            </div>
           </div>
-          <div className="absolute inset-0 bg-gradient-to-r from-gray-100 to-white opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          
+          <div className="absolute right-[-20px] bottom-[-40px] w-48 h-48 opacity-100 transform rotate-[-10deg] group-hover:rotate-0 group-hover:scale-105 transition-all duration-500 ease-out">
+              <ElephantIcon />
+          </div>
+          
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-white/50 pointer-events-none"></div>
         </button>
       </div>
 

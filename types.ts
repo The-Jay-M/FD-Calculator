@@ -11,8 +11,14 @@ export enum CompoundingFrequency {
   YEARLY = 1
 }
 
+export interface UserProfile {
+  name: string;
+  address: string;
+}
+
 export interface FDInput {
   id?: string;
+  title?: string; // e.g., "Wedding Fund"
   principal: number;
   rate: number;
   tenureValue: number;

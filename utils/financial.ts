@@ -1,6 +1,6 @@
 import { FDInput, FDResult, TenureType } from '../types';
 
-export const MINIMUM_INVESTMENT = 100000;
+export const MINIMUM_INVESTMENT = 10000; // Lowered for testing, typically 100k
 
 export const calculateMaturityDate = (startDate: string, tenureValue: number, tenureType: TenureType): string => {
   const date = new Date(startDate);
@@ -70,6 +70,41 @@ export const calculateFD = (input: FDInput): FDResult => {
   };
 };
 
+export const calculateEarlyWithdrawal = (
+  principal: number, 
+  rate: number, 
+  startDate: string, 
+  withdrawalDate: string
+): { accruedInterest: number; penalty: number; payout: number } => {
+  
+  const start = new Date(startDate).getTime();
+  const end = new Date(withdrawalDate).getTime();
+  
+  if (end <= start) {
+      return { accruedInterest: 0, penalty: 0, payout: principal };
+  }
+
+  const diffDays = (end - start) / (1000 * 60 * 60 * 24);
+  const timeInYears = diffDays / 365;
+
+  // Simple interest approximation for broken period or compound if preferred.
+  // Using Compound Interest formula for consistency
+  const n = 4; // Quarterly
+  const r = rate / 100;
+  const amount = principal * Math.pow(1 + r / n, n * timeInYears);
+  const accruedInterest = amount - principal;
+
+  // Penalty: 20% of accrued interest
+  const penalty = accruedInterest * 0.20;
+  const payout = principal + accruedInterest - penalty;
+
+  return {
+    accruedInterest: parseFloat(accruedInterest.toFixed(2)),
+    penalty: parseFloat(penalty.toFixed(2)),
+    payout: parseFloat(payout.toFixed(2))
+  };
+};
+
 export const formatCurrency = (amount: number): string => {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -81,7 +116,9 @@ export const formatCurrency = (amount: number): string => {
 
 export const formatDate = (dateString: string): string => {
   if (!dateString) return '';
-  return new Date(dateString).toLocaleDateString('en-US', {
+  const date = new Date(dateString);
+  // Handle timezone offset simply by using UTC methods if needed, but local is fine for this app
+  return date.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
